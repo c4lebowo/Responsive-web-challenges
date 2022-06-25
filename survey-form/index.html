@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>survey form</title>
+</head>
+
+<body>
+    <h1 id="title">
+        Book reading survey form
+    </h1>
+    <p id="description"> We'll appreciate all your help for answering a few questions </p>
+
+    <form id="survey-form">
+
+        <label for="name" id="name-label"> Name </label>
+        <br />
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        <br />
+        <label for="email" id="email-label">Email</label>
+        <br />
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <br />
+        <label for="age" id="number-label">Age (optional)</label>
+        <br />
+        <input type="number" id="number" name="age" placeholder="Enter your age" min="10" max="100">
+        <br />
+        <label for="dropdown">Which role are you currently involved?</label>
+        <br />
+        <select id="dropdown">
+            <option disabled selected value>Select an option</option>
+            <option value="employed">Employed</option>
+            <option value="unemployed">Unemployed</option>
+            <option value="student">Student</option>
+            <option value="prefernottosay">Prefer not to say</option>
+            <option value="other">Other</option>
+        </select>
+        <br />
+        <p class="questions">How many hours (per week) you read?</p>
+        <input type="radio" id="radio" name="time" value="notime">
+        <label for="notime">I don't have time to read</label>
+        <br />
+
+        <input type="radio" id="radio" name="time" value="1to2">
+        <label for="1to2">1 - 2 hours a week</label>
+        <br />
+
+        <input type="radio" id="radio" name="time" value="2to4">
+        <label for="2to4">2 - 4 hours a week</label>
+        <br />
+
+        <input type="radio" id="radio" name="time" value="et">
+        <label for="et">More than 4 hours a week</label </form>
+        <br />
+        <p class="questions">Which of this categories you like to read?</p>
+        <input type="checkbox" id="checkbox" name="check1" value="one">
+        <label for="check1">Horror</label>
+        <br />
+
+        <input type="checkbox" id="checkbox" name="check2" value="two">
+        <label for="check2">Business & investing</label>
+        <br />
+
+        <input type="checkbox" id="checkbox" name="check3" value="three">
+        <label for="check3">Mistery & suspense</label>
+        <br />
+
+        <input type="checkbox" id="checkbox" name="check4" value="four">
+        <label for="check4">Romance</label>
+        <br />
+
+        <input type="checkbox" id="checkbox" name="check5" value="five">
+        <label for="check5">Sci-fi & fantasy</label>
+        <br />
+
+        <input type="checkbox" id="checkbox" name="check6" value="six">
+        <label for="check6">Biographies & memoirs</label>
+        <br />
+        <br />
+        <label for="text">Tell us what are your favorite books and what this survey can improve</label>
+        <br />
+        <textarea type="text" id="textarea" placeholder="Any comments?"></textarea>
+        <br />
+        <button type="submit" id="submit">Submit</button>
+</body>
+
+</html>

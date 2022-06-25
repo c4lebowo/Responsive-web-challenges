@@ -1,0 +1,30 @@
+body{
+    font-family: Consolas,"courier new";
+    color: #333;
+    background-color: aliceblue;
+    display: flex;
+    align-items: flex-start;
+}
+header{
+    font-weight: bold;
+    font-size: x-large;
+}
+pre{
+    background: #33333311;
+    color: #8f8e8e;
+    overflow: scroll;
+}
+
+#main-doc{
+    width: 60%;
+    margin: 30px;
+}
+
+@media (max-width: 500px){
+    body{
+        display: block;
+    } 
+    #main-doc, #nav-bar{
+        width: auto;
+    }
+}

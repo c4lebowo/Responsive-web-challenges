@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Doc page</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <header>
+
+            The basics of async/await
+
+        </header>
+        <hr>
+        <a class="nav-link" href="#Introduction">Introduction</a>
+        <hr>
+        <a class="nav-link" href="#What_you_should_already_know">What you should already know</a>
+        <hr>
+        <a class="nav-link" href="#How_it_works">How it works</a>
+        <hr>
+        <a class="nav-link" href="#Promise_all_the_things">Promise all the things</a>
+        <hr>
+        <a class="nav-link" href="#Handling_errors">Handling errors</a>
+        <hr>
+        <hr><a class="nav-link" href="#Multiple_async_functions_in_series">Multiple async functions in series </a>
+        <hr>
+        <a class="nav-link" href="#Reference">Reference</a>
+        <hr>
+    </nav>
+
+    <main id="main-doc">
+        <section class="main-section" id="Introduction">
+            <header>Introduction</header>
+            <p>
+                JavaScript evolved in a very short time from callbacks to Promises, and
+                since ES2017 asynchronous JavaScript is even simpler with the async/await
+                syntax.
+            </p>
+            <p>
+                Async functions are a combination of promises and generators, and basically, they are a
+                higher level abstraction over promises. Let me repeat: async/await is built on promises.
+            </p>
+
+        </section>
+        <section class="main-section" id="What_you_should_already_know">
+            <header>What you should already know</header>
+            <ul>
+                <li>A good working knowledge of javascript</li>
+                <li>Promises and callbacks</li>
+                <li>Basic knowledge of nodeJS</li>
+                <li>Basic error handling</li>
+                <li>And let's get started</li>
+            </ul>
+        </section>
+        <section class="main-section" id="How_it_works">
+            <header>How it works</header>
+            <p>
+                The async function returns a promise, like this example:
+            </p>
+            <pre>
+                <code>
+        const doSomethingAsync = () => {
+        return new Promise((resolve) => {
+        setTimeOut(() => resolve('I did something'), 3000)
+            })
+        }
+                </code>
+            </pre>
+            <p>
+                When you want to call this function you prepend await , and the calling code will stop until
+                the promise is resolved or rejected. One caveat: the client function must be defined as
+                async. Here's an example:
+            </p>
+            <pre>
+                <code>
+        const doSomething = async () =>{       
+        console.log(await doSomethingAsync())
+        }
+                </code>
+            </pre>
+
+        </section>
+        <section class="main-section" id="Promise_all_the_things">
+            <header>Promise all the things</header>
+                <p>
+                    Prepending the async keyword to any function means that the function will return a promise.
+                    Even if it's not doing so explicitly, it will internally make it return a promise.
+                    This is why this code is valid:
+                </p>
+                <pre>
+    <code>
+        const afunction = async => {
+            return 'test'
+        }
+        aFunction().then(alert) // This will alert 'test'
+    </code>
+</pre>
+                <p>
+                    Adt it's the same as:
+                </p>
+                <pre>
+                    <code>
+        const aFunction = async () => {
+        return Promise.resolve('test')
+        }
+        aFunction().then(alert) // This will alert 'test'
+                    </code>
+                </pre>
+                <p>
+                    As you can see in the example above, our code looks very simple. Compare it to code using
+                    plain promises, with chaining and callback functions.
+                    And this is a very simple example, the major benefits will arise when the code is much more
+                    complex.
+                </p>
+        </section>
+
+        <section class="main-section" id="Handling_errors">
+            <header>Handling errors</header>
+            <p>
+                And if you want to add error handling, you've got a couple of options.
+            </p>
+            <p>
+                You can use a synchronous try...catch structure with async/await:
+            </p>
+            <pre>
+                <code>
+        async function myFetch() {
+            try{           
+            let response = await fetch('cofee.jpg')
+            if(!response.ok){
+            throw new Error(`HTTP error! status: ${response.status}`)			
+            }
+                            
+            let myBlob = await response.blob()
+            let objectURL = URL.createObjectURL(myBlob)
+            let image = document.createElement('img')
+            image.src = objectURL
+                
+            document.body.appendChild(image)
+            } catch(e){
+            console.log(e)
+            }
+        }
+        myFetch();
+                </code>
+            </pre>
+            <p>
+                The catch() {} block is passed an error object, which we've called 'e'; we can now log that to the
+                console, and it will give us a detailed error message showing where in the code the error was thrown.
+            </p>
+            <p>
+                If you wanted to use the second (refactored) version of the code that we showed above, you would be
+                better off just continuing the hybrid approach and chaining a .catch( ) block onto the end of
+                the .then() call, like this:
+            </p>
+            <pre>
+        <code>
+        async function myFetch() {
+            let response = await fetch('coffee.jpg)
+            if(!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return await response.blob()
+        }
+
+        myFetch().then((blob) => {            
+            let objectURL = URL.createObjectURL(blob)
+            let image = document.createObjectURL('img')
+            image.src = objectURL
+            document.body.appendChild(image)
+        })
+        .catch((e) =>
+        console.log(e)
+        )
+    </code>
+</pre>
+            <p>
+                This is because the .catch() block will catch errors occurring in both the async function call and the
+                promise chain. If you used the try/catch block here, you might still get unhandled errors in the
+                myFetch() function when it's called.
+            </p>
+        </section>
+
+        <section class="main-section" id="Multiple_async_functions_in_series">
+            <header>Multiple async functions in series</header>
+            <p>
+                Async functions can be chained very easily, and the syntax is much more readable than with
+                plain promises:
+            </p>
+            <pre>
+          <code>
+        const promiseToDoSomething = () => {
+            return new Promise(resolve => {
+            setTimeOut(() => resolve('I did something'), 3000)
+            })
+        }
+
+        const WatchOverSomeoneDoingSomething  = async () => {   
+            const something = await promiseToDoSomething()
+            return something + ' and I watched'
+            }
+
+        const watchOverSomeoneWatchingSomeoneDoingSomething = async () => {
+        const something = await watchOverSomeoneDoingSomething()
+        return something + ' and I watched as well'    
+            }
+
+        watchOverSomeoneWatchingSomeoneDoingSomething().then((res) => {   
+        console.log(res)     
+            })
+            </code>
+        </pre>
+            <p>
+                Will print:
+            </p>
+            <pre>
+            <code>
+    // I did something and I watched and I watched as well 
+            </code>
+            </pre>
+
+            <p>
+                And with that we conclude this article. As you can see, the async functions work for us to make handle
+                the code and the information we need to use very easily. Apply and practice this type of code in your
+                side projects and portfolio. Happy coding!
+            </p>
+
+        </section>
+
+        <section class="main-section" id="Reference">
+            <header>Reference</header>
+            <p>
+                <a href="https://flaviocopes.com/">
+                    Node.js Handbook - Flabio Copes
+                </a>
+            </p>
+            <p>
+                <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await">
+                    Making asynchronous programming easier with async and await - developer.mozilla.com
+                </a>
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>
